@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flows namespace="com.zowork.cloud.flow.test.service.inject"
+	xmlns="http://www.zowalk.com/schema/flows" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.zowalk.com/schema/flows http://www.zowalk.com/schema/flows.xsd">
+	<!-- 创建订单流程 -->
+	<flow id="injectTest" resultType="com.zowork.cloud.flow.test.model.PersonModel"
+		interface="com.zowork.cloud.flow.test.service.inject.ParameterInjectService">
+		<node id="injectParam"
+			class="com.zowork.cloud.flow.test.nodes.inject.ParameterInjectNode"></node>
+		<node id="injectAttr"
+			class="com.zowork.cloud.flow.test.nodes.inject.AttributeInjectNode"></node>
+		<node id="attrResult"
+			class="com.zowork.cloud.flow.test.nodes.inject.AttributeResultNode"></node>
+		<node id="echo" class="com.zowork.cloud.flow.test.nodes.inject.EchoInjectNode"></node>
+
+	</flow>
+	<flow id="injectTest2" resultType="com.zowork.cloud.flow.test.model.PersonModel"
+		interface="com.zowork.cloud.flow.test.service.inject.ParameterInjectService">
+		<node id="injectParam"
+			class="com.zowork.cloud.flow.test.nodes.inject.ParameterInjectNode"></node>
+		<node id="injectAttr"
+			class="com.zowork.cloud.flow.test.nodes.inject.AttributeInjectNode"></node>
+		<node id="attrResult"
+			class="com.zowork.cloud.flow.test.nodes.inject.AttributeResultNode"></node>
+		<node id="echo" class="com.zowork.cloud.flow.test.nodes.inject.EchoInjectNode"></node>
+
+	</flow>
+</flows>

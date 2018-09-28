@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flows namespace="com.zowork.cloud.flow.test.service.componentscan"
+	xmlns="http://www.zowalk.com/schema/flows" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.zowalk.com/schema/flows http://www.zowalk.com/schema/flows.xsd">
+	<!-- Helloworld -->
+	<flow id="helloworld" resultType="com.zowork.cloud.flow.test.model.PersonModel"
+		interface="com.zowork.cloud.flow.test.service.DemoFlowService1">
+		<choose>
+			<!-- 根据年龄走不同的逻辑 -->
+			<when test="age lt 12">
+				<choose>
+					<when test="city=='GD'" title="判断是否南方城市">
+						<if test="color != null">
+							<if test="color.name()=='BLACK'">
+								<node id="kidSouthBlack"
+									class="com.zowork.cloud.flow.test.nodes.KidSouthBlackNode" />
+							</if>
+							<if test="color.name()=='WHITE'">
+								<node id="kidSouthWhite"
+									class="com.zowork.cloud.flow.test.nodes.KidSouthWhiteNode" />
+							</if>
+							<if test="color.name()=='YELLOW'">
+								<node id="kidSouthYellow"
+									class="com.zowork.cloud.flow.test.nodes.KidSouthYellowNode" />
+							</if>
+						</if>
+						<if test="color == null">
+							<node id="kidSouthDefault" class="com.zowork.cloud.flow.test.nodes.KidSouthNode" />
+						</if>
+					</when>
+					<when test="city=='BJ'" title="判断是否北方城市">
+						<node id="kidNorth" class="com.zowork.cloud.flow.test.nodes.KidNorthNode" />
+					</when>
+					<otherwise>
+						<node id="kidDefault" class="com.zowork.cloud.flow.test.nodes.KidNode"></node>
+					</otherwise>
+				</choose>
+			</when>
+			<when test="age gt 12 and age lte 60">
+				<choose>
+					<!-- 根据年龄走不同的逻辑 -->
+					<when test="age gte 20 and age lt 30">
+						<node id="young20" class="com.zowork.cloud.flow.test.nodes.Young20Node"></node>
+					</when>
+					<when test="age gte 30 and age lt 40">
+						<node id="young30" class="com.zowork.cloud.flow.test.nodes.Young30Node"></node>
+					</when>
+					<when test="age gte 40 and age lt 50">
+						<node id="young40" class="com.zowork.cloud.flow.test.nodes.Young40Node"></node>
+					</when>
+					<when test="age gte 50 and age lte 60">
+						<node id="young50" class="com.zowork.cloud.flow.test.nodes.Young50Node"></node>
+					</when>
+					<otherwise>
+						<node id="youngDefault" class="com.zowork.cloud.flow.test.nodes.YoungNode"></node>
+					</otherwise>
+				</choose>
+			</when>
+			<otherwise>
+				<node id="old" class="com.zowork.cloud.flow.test.nodes.OldNode"></node>
+			</otherwise>
+		</choose>
+	</flow>
+</flows>

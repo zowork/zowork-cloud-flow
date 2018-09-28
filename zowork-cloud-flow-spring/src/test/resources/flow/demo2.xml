@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flows namespace="com.zowork.cloud.flow.test.service2" xmlns="http://www.zowalk.com/schema/flows"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.zowalk.com/schema/flows http://www.zowalk.com/schema/flows.xsd">
+	<!-- 创建订单流程 -->
+	<flow id="helloworld" resultType="com.zowork.cloud.flow.test.model.PersonModel"
+		interface="com.zowork.cloud.flow.test.service.DemoFlowService1">
+		<node id="公共节点1"></node>
+		<node id="公共节点2"></node>
+		<node id="公共节点3"></node>
+
+		<choose>
+			<!-- 分支配置 -->
+			<when test="username !=null">
+				<node id="分支节点4"></node>
+				<node id="分支节点5"></node>
+			</when>
+			<when test="username !=null">
+				<node id="分支节点6" class=""></node>
+				<node id="分支节点7" ref=""></node>
+				<goto id="end"></goto>
+			</when>
+			<when test="xxxx">
+				<node id="分支节点8"></node>
+				<node id="分支节点9"></node>
+				<goto id="end"></goto>
+			</when>
+			<otherwise>
+				<goto id="end"></goto>
+			</otherwise>
+		</choose>
+		<node id="公共节点10"></node>
+		<sub-flow id="xxx" ref-flow-id="PAYMENT">
+
+		</sub-flow>
+		<sub-flow id="subFlow2">
+			<node id="分支节点11"></node>
+			<node id="分支节点12"></node>
+		</sub-flow>
+		<script>
+		   <![CDATA[
+		     if($Attr.a&&$Param.a){
+			     $flow.forward('actionId')
+			 }else{
+			     $flow.forward('actionId')
+			 } 
+		   ]]>
+		</script>
+	</flow>
+</flows>

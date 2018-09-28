@@ -1,0 +1,515 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns="http://www.zowalk.com/schema/flows"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.zowalk.com/schema/flows"
+	elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+	<xsd:element name="flows">
+		<xsd:annotation>
+			<xsd:documentation>
+        <![CDATA[
+         flow Spring 集成配置
+        ]]>
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:choice minOccurs="0" maxOccurs="unbounded">
+					<xsd:element ref="flow" />
+				</xsd:choice>
+			</xsd:sequence>
+			<xsd:attribute name="namespace" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>
+            <![CDATA[
+              namespace
+            ]]>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="title" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>
+            <![CDATA[
+              title
+            ]]>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="description" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>
+            <![CDATA[
+              description
+            ]]>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="flow">
+		<xsd:annotation>
+			<xsd:documentation>
+        <![CDATA[
+         flow Spring 集成配置
+        ]]>
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:choice minOccurs="0" maxOccurs="unbounded">
+					<xsd:element ref="node" />
+					<xsd:element ref="choose" />
+					<xsd:element ref="if" />
+					<xsd:element ref="script" />
+					<xsd:element ref="sub-flow" />
+				</xsd:choice>
+			</xsd:sequence>
+			<xsd:attribute name="id" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>
+            <![CDATA[
+              id
+            ]]>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="title" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>
+            <![CDATA[
+              title
+            ]]>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="description" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>
+            <![CDATA[
+              description
+            ]]>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="resultType" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>
+            <![CDATA[
+              result-class
+            ]]>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="interface" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>
+            <![CDATA[
+              interface
+            ]]>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="sub-flow">
+		<xsd:annotation>
+			<xsd:documentation>
+        <![CDATA[
+         flow Spring 集成配置
+        ]]>
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:choice minOccurs="0" maxOccurs="unbounded">
+					<xsd:element ref="node" />
+					<xsd:element ref="choose" />
+					<xsd:element ref="if" />
+					<xsd:element ref="script" />
+					<xsd:element ref="sub-flow" />
+				</xsd:choice>
+			</xsd:sequence>
+			<xsd:attribute name="id" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>
+            <![CDATA[
+              id
+            ]]>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="title" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>
+            <![CDATA[
+              title
+            ]]>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="description" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>
+            <![CDATA[
+              description
+            ]]>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="ref-flow-id" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>
+            <![CDATA[
+                    ref
+            ]]>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="node">
+		<xsd:annotation>
+			<xsd:documentation>
+        <![CDATA[
+         flow Spring 集成配置
+        ]]>
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:attribute name="id" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>
+            <![CDATA[
+              id
+            ]]>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="title" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>
+            <![CDATA[
+              title
+            ]]>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="description" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>
+            <![CDATA[
+              description
+            ]]>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="if" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>
+            <![CDATA[
+              if标签
+            ]]>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="elseif" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>
+            <![CDATA[
+              else if标签
+            ]]>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="else" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>
+            <![CDATA[
+              else 标签
+            ]]>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="ref" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>
+            <![CDATA[
+              ref 标签
+            ]]>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="class" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>
+            <![CDATA[
+              ref 标签
+            ]]>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="if">
+		<xsd:annotation>
+			<xsd:documentation>
+        <![CDATA[
+         flow Spring 集成配置
+        ]]>
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:choice minOccurs="0" maxOccurs="unbounded">
+					<xsd:element ref="node" />
+					<xsd:element ref="choose" />
+					<xsd:element ref="if" />
+					<xsd:element ref="goto" />
+					<xsd:element ref="script" />
+					<xsd:element ref="sub-flow" />
+				</xsd:choice>
+			</xsd:sequence>
+			<xsd:attribute name="test" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>
+            <![CDATA[
+              id
+            ]]>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="title" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>
+            <![CDATA[
+              title
+            ]]>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="description" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>
+            <![CDATA[
+              description
+            ]]>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="choose">
+		<xsd:annotation>
+			<xsd:documentation>
+        <![CDATA[
+         flow Spring 集成配置
+        ]]>
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:choice minOccurs="1" maxOccurs="unbounded">
+					<xsd:element ref="when" />
+				</xsd:choice>
+				<xsd:choice minOccurs="0" maxOccurs="unbounded">
+					<xsd:element ref="otherwise" />
+				</xsd:choice>
+			</xsd:sequence>
+			<xsd:attribute name="title" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>
+            <![CDATA[
+              title
+            ]]>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="description" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>
+            <![CDATA[
+              description
+            ]]>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="when">
+		<xsd:annotation>
+			<xsd:documentation>
+        <![CDATA[
+         flow Spring 集成配置
+        ]]>
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:choice minOccurs="1" maxOccurs="unbounded">
+					<xsd:element ref="node" />
+					<xsd:element ref="choose" />
+					<xsd:element ref="if" />
+					<xsd:element ref="script" />
+					<xsd:element ref="sub-flow" />
+					<xsd:element ref="goto" />
+				</xsd:choice>
+			</xsd:sequence>
+			<xsd:attribute name="test" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>
+            <![CDATA[
+              test
+            ]]>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="title" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>
+            <![CDATA[
+              title
+            ]]>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="description" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>
+            <![CDATA[
+              description
+            ]]>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="goto">
+		<xsd:annotation>
+			<xsd:documentation>
+        <![CDATA[
+         flow Spring 集成配置
+        ]]>
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:attribute name="id" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>
+            <![CDATA[
+              node id
+            ]]>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="flow-id" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>
+            <![CDATA[
+              flow-id
+            ]]>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="title" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>
+            <![CDATA[
+              title
+            ]]>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="description" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>
+            <![CDATA[
+              description
+            ]]>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="otherwise">
+		<xsd:annotation>
+			<xsd:documentation>
+        <![CDATA[
+         flow Spring 集成配置
+        ]]>
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:choice minOccurs="1" maxOccurs="unbounded">
+					<xsd:element ref="node" />
+					<xsd:element ref="choose" />
+					<xsd:element ref="if" />
+					<xsd:element ref="script" />
+					<xsd:element ref="sub-flow" />
+					<xsd:element ref="goto" />
+				</xsd:choice>
+			</xsd:sequence>
+			<xsd:attribute name="title" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>
+            <![CDATA[
+              title
+            ]]>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="description" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>
+            <![CDATA[
+              description
+            ]]>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="script">
+		<xsd:annotation>
+			<xsd:documentation><![CDATA[
+	script
+			]]></xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType mixed="true">
+			<xsd:choice minOccurs="0" maxOccurs="unbounded" />
+			<xsd:attribute name="title" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>
+            <![CDATA[
+              title
+            ]]>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="description" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>
+            <![CDATA[
+              description
+            ]]>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="description">
+		<xsd:annotation>
+			<xsd:documentation><![CDATA[
+	Contains informative text describing the purpose of the enclosing element.
+	Used primarily for user documentation of XML bean definition documents.
+			]]></xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType mixed="true">
+			<xsd:choice minOccurs="0" maxOccurs="unbounded" />
+		</xsd:complexType>
+	</xsd:element>
+
+</xsd:schema>
