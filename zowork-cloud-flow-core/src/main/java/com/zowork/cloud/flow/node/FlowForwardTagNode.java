@@ -2,12 +2,12 @@ package com.zowork.cloud.flow.node;
 
 import com.zowork.cloud.flow.FlowConfiguration;
 
-public class FlowGotoTagNode extends BaseTagNode implements FlowElement, Executable {
+public class FlowForwardTagNode extends BaseTagNode implements FlowElement {
 	private static final long serialVersionUID = 4470541043389415539L;
 	String id;
 	String flowId;
 
-	public FlowGotoTagNode(FlowConfiguration configuration, String id, String flowId) {
+	public FlowForwardTagNode(FlowConfiguration configuration, String id, String flowId) {
 		super();
 		this.configuration = configuration;
 		this.id = id;

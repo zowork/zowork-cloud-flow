@@ -3,7 +3,9 @@ package com.zowork.cloud.flow.resolver;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.core.DefaultParameterNameDiscoverer;
 import org.springframework.core.GenericTypeResolver;
@@ -20,6 +22,10 @@ import com.zowork.cloud.flow.converter.FlowTypeConverter;
 public class DefaultArgumentsResolver implements ArgumentsResolver {
 	FlowConfiguration configuration;
 	static DefaultParameterNameDiscoverer parameterNameDiscoverer = new DefaultParameterNameDiscoverer();
+	static Set<Class<?>> classSet = new HashSet<Class<?>>();
+	static {
+		classSet.add(FlowContext.class);
+	}
 
 	public DefaultArgumentsResolver(FlowConfiguration configuration) {
 		super();
@@ -58,11 +64,15 @@ public class DefaultArgumentsResolver implements ArgumentsResolver {
 			}
 			if (args[i] == null) {
 				Object[] methodArgs = FlowContext.getContext().getMethodArgs();
+				if (methodArgs == null) {
+					continue;
+				}
 				for (Object methodArg : methodArgs) {
 					if (methodArg == null) {
 						continue;
 					}
-					if (parameterType.isAssignableFrom(methodArg.getClass())) {
+					if (parameterType.isAssignableFrom(methodArg.getClass())
+							&& classSet.contains(methodArg.getClass())) {
 						args[i] = methodArg;
 						break;
 					}

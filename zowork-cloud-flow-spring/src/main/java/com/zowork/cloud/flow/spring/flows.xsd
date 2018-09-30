@@ -267,7 +267,7 @@
 					<xsd:element ref="node" />
 					<xsd:element ref="choose" />
 					<xsd:element ref="if" />
-					<xsd:element ref="goto" />
+					<xsd:element ref="forward" />
 					<xsd:element ref="script" />
 					<xsd:element ref="sub-flow" />
 				</xsd:choice>
@@ -354,7 +354,7 @@
 					<xsd:element ref="if" />
 					<xsd:element ref="script" />
 					<xsd:element ref="sub-flow" />
-					<xsd:element ref="goto" />
+					<xsd:element ref="forward" />
 				</xsd:choice>
 			</xsd:sequence>
 			<xsd:attribute name="test" type="xsd:string">
@@ -386,7 +386,7 @@
 			</xsd:attribute>
 		</xsd:complexType>
 	</xsd:element>
-	<xsd:element name="goto">
+	<xsd:element name="forward">
 		<xsd:annotation>
 			<xsd:documentation>
         <![CDATA[
@@ -449,7 +449,7 @@
 					<xsd:element ref="if" />
 					<xsd:element ref="script" />
 					<xsd:element ref="sub-flow" />
-					<xsd:element ref="goto" />
+					<xsd:element ref="forward" />
 				</xsd:choice>
 			</xsd:sequence>
 			<xsd:attribute name="title" type="xsd:string">

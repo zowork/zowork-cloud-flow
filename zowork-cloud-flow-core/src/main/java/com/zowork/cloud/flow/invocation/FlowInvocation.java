@@ -1,6 +1,7 @@
 package com.zowork.cloud.flow.invocation;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,7 +11,8 @@ import com.zowork.cloud.flow.FlowException;
 import com.zowork.cloud.flow.FlowUtils;
 import com.zowork.cloud.flow.node.FlowChooseTagNode;
 import com.zowork.cloud.flow.node.FlowElement;
-import com.zowork.cloud.flow.node.FlowGotoTagNode;
+import com.zowork.cloud.flow.node.FlowForwardTagNode;
+import com.zowork.cloud.flow.node.FlowSubFlowTagNode;
 import com.zowork.cloud.flow.node.FlowTagNode;
 import com.zowork.cloud.flow.node.FlowsRootTagNode;
 
@@ -41,14 +43,12 @@ public class FlowInvocation {
 
 	public void setNextNode(FlowElement nextNode) {
 		this.nextNode = nextNode;
-		this.currentNode=nextNode;
 		FlowContext context = FlowContext.getContext();
 		context.setNextNode(nextNode);
-		context.setCurrentNode(currentNode);
-		if(FlowUtils.getLogger().isDebugEnabled()){
-			FlowUtils.getLogger().debug("next node="+nextNode);
+		if (FlowUtils.getLogger().isDebugEnabled()) {
+			FlowUtils.getLogger().debug("next node=" + nextNode);
 		}
-		
+
 	}
 
 	public FlowElement getCurrentNode() {
@@ -109,7 +109,7 @@ public class FlowInvocation {
 	// when
 	//
 	void nextNode(FlowContext context) {
-		if(this.nextNode==null){
+		if (this.nextNode == null) {
 			return;
 		}
 		/**
@@ -149,17 +149,45 @@ public class FlowInvocation {
 				FlowElement tempNode = null;
 				for (FlowElement whenNode : chooseNode.getIfNodeList()) {// 判断when的条件，假如有一个为true则往下执行
 					if (whenNode.test(context)) {
-						tempNode = whenNode;
+						if (!whenNode.hasChild()) {
+							throw new FlowException("flow configuration error!whenNode=" + whenNode);
+						}
+						tempNode = whenNode.childs().get(0);// 假如when
+															// test=true，返回子节点的第一个，TODO
+															// add trace
 						break;
 					}
 				}
 				if (tempNode == null) {
 					tempNode = chooseNode.getDefaultNode();
+					if (tempNode != null) {
+						if (!tempNode.hasChild()) {
+							throw new FlowException("flow configuration error!defaultNode=" + tempNode);// 假如otherwise，返回子节点的第一个，TODO
+																										// add
+																										// trace
+						}
+						tempNode = tempNode.childs().get(0);
+					}
 				}
 				if (tempNode == null) {
 					tempNode = this.findParentNext(chooseNode);
 				}
 				setNextNode(tempNode);
+			}
+			return;
+		}
+		if (this.nextNode instanceof FlowSubFlowTagNode) {
+			FlowSubFlowTagNode subFlowNode = (FlowSubFlowTagNode) this.nextNode;
+			if (StringUtils.isBlank(subFlowNode.getRefFlowId())) {
+				if (CollectionUtils.isEmpty(subFlowNode.childs())) {
+					throw new FlowException("5000", "sub-flow node childs is empty!namespace=" + flow.getNamespace()
+							+ " flowId=" + flow.getId() + " sub-flow id=" + subFlowNode.getId());
+				}
+				this.nextNode = subFlowNode.childs().get(0);
+				setNextNode(this.nextNode);
+			} else {
+				// this.nextNode = subFlowNode.childs().get(0);
+				setNextNode(this.nextNode);
 			}
 			return;
 		}
@@ -170,6 +198,7 @@ public class FlowInvocation {
 			} else {
 				if (this.nextNode.next() == null) {
 					FlowElement tempNode = this.findParentNext(this.nextNode);// 找上一级的节点
+
 					setNextNode(tempNode);
 				} else {
 					FlowElement tempNode = this.nextNode.next();
@@ -202,34 +231,66 @@ public class FlowInvocation {
 
 	public Object invokeNext(FlowInvocation invocation) throws Exception {
 		FlowContext context = FlowContext.getContext();
+		setCurrentNode(this.nextNode);//设置当前执行节点
 		if (!isFlowEnd()) {
 			checkInvoke(context);// 检查执行情况，是否超过最大调用限制，防止循环调用
+
 			if (FlowUtils.isExecutable(this.nextNode) && this.nextNode.test(context)) {// 执行通过之后进行
 				FlowInvocationProxy invocationProxy = new FlowInvocationProxy(this.nextNode, this, context);
 				Object result = invocationProxy.invokeActionOnly();
 				if (FlowUtils.isReturnResult(context, result)) {
+					this.nextNode = null;
 					return result;
 				}
-				nextNode(context);// 跳转到下一个执行节点
+				if (this.nextNode == this.currentNode) {// 将currentNode==this.nextNode的时候节点没有在script或者通过方法进行跳转
+					nextNode(context);// 跳转到下一个执行节点
+				}
+
 				result = invokeNext(invocation);
 				if (FlowUtils.isReturnResult(context, result)) {
+					this.nextNode = null;
 					return result;
 				}
 
 			}
-			if (FlowUtils.isGotoNode(nextNode)) {// 假如是goto节点,直接跳转到下一个节点
-				FlowGotoTagNode gotoNode = (FlowGotoTagNode) this.nextNode;
+			if (FlowUtils.isForwardNode(nextNode)) {// 假如是goto节点,直接跳转到下一个节点
+				FlowForwardTagNode gotoNode = (FlowForwardTagNode) this.nextNode;
 				this.nextNode = this.flow.getNodeById(gotoNode.getId());
 				this.setNextNode(nextNode);
 				Object result = invokeNext(invocation);
 				if (FlowUtils.isReturnResult(context, result)) {
+					this.nextNode = null;
 					return result;
+				}
+			}
+			if (this.nextNode instanceof FlowSubFlowTagNode) {
+				FlowSubFlowTagNode subFlowNode = (FlowSubFlowTagNode) this.nextNode;
+				if (StringUtils.isNotBlank(subFlowNode.getRefFlowId())) {
+					FlowTagNode refSubFlow = this.getConfiguration().getFlow(flow.getNamespace(),
+							subFlowNode.getRefFlowId());
+					if (refSubFlow == null) {
+						throw new FlowException("5000", "flow not found!namespace=" + flow.getNamespace() + ",flowId="
+								+ subFlowNode.getRefFlowId());
+					}
+					FlowInvocation subFlowInvocation = new FlowInvocation(refSubFlow, this.configuration);
+					Object subResult = subFlowInvocation.invoke();
+					if (FlowUtils.isReturnResult(context, subResult)) {
+						this.nextNode = null;
+						return subResult;
+					}
+					if (this.nextNode.next() != null) {
+						this.setNextNode(this.nextNode.next());
+					} else {
+						this.setNextNode(this.findParentNext(this.nextNode));
+					}
+
 				}
 			}
 			nextNode(context);// 跳转到下一个执行节点
 			Object result = invokeNext(invocation);
 
 			if (FlowUtils.isReturnResult(context, result)) {
+				this.nextNode = null;
 				return result;
 			}
 		}

@@ -173,5 +173,17 @@
 			<version>3.2</version>
 			<scope>provided</scope>
 		</dependency>
-	</dependencies>
+	</dependencies> 
+	<distributionManagement>
+		<repository>
+			<id>local-releases</id>
+			<name>releases by local</name>
+			<url>http://maven.baozhen9.com/repository/maven-releases/</url>
+		</repository>
+		<snapshotRepository>
+			<id>local-snapshots</id>
+			<name>snapshots by local</name>
+			<url>http://maven.baozhen9.com/repository/maven-snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
 </project>

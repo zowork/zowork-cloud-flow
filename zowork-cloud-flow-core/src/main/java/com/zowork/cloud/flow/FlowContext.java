@@ -15,11 +15,11 @@ public class FlowContext {
 	/**
 	 * 变量内容，将方法的请求参数放进来
 	 */
-	final Map<String, Object> parametersMap = new LinkedHashMap<>();
+	final Map<String, Object> parametersMap = new FlowParameterMap();
 	/**
 	 * 将对象放到attributes中
 	 */
-	final Map<String, Object> attributesMap = new LinkedHashMap<>();
+	final Map<String, Object> attributesMap = new FlowAttributeMap();
 	/**
 	 * 执行历史
 	 */
@@ -145,6 +145,7 @@ public class FlowContext {
 		if (contextMap == null) {
 			contextMap = new FlowContextMap(this);
 		}
+		contextMap.putAll(this.parametersMap);
 		return contextMap;
 	}
 

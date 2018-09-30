@@ -60,6 +60,7 @@ public class FlowTagFlowParser implements FlowParser {
 		ParseUtils.parseCommonAttribute(flowNode, ((Element) parentNode));
 		ParseUtils.initRelation(childList, flowNode, context);
 		flowNode.setTest("true");
+		flowNode.setNamespace(context.getNamespace());
 		context.getConfiguration().registerFlow(context.getNamespace(), id, flowNode);
 		return flowNode;
 	}

@@ -29,13 +29,14 @@ public class SubFlowTagFlowParser implements FlowParser {
 		if (parentNode == null) {
 			return null;
 		}
-		NodeList nodeList = parentNode.getChildNodes();
-		if (nodeList.getLength() <= 0) {
-			return null;
-		}
+		
 		String id = ((Element) parentNode).getAttribute("id");
 		String refFlowId = ((Element) parentNode).getAttribute("ref-flow-id");
-		if (StringUtils.isBlank(id)) {
+		NodeList nodeList = parentNode.getChildNodes();
+		if (nodeList.getLength() <= 0&&StringUtils.isBlank(refFlowId)) {
+			return null;
+		}
+		if (StringUtils.isBlank(id)&&StringUtils.isBlank(refFlowId)) {
 			throw new FlowException("5000",
 					"tagname=" + ((Element) parentNode).getTagName() + " attribute [id] must not null!");
 		}

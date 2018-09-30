@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.zowork.cloud.flow.FlowConfiguration;
 
-public class FlowSubFlowTagNode extends BaseTagNode implements FlowElement, Executable {
+public class FlowSubFlowTagNode extends BaseTagNode implements FlowElement {
 	private static final long serialVersionUID = 1149033617069620269L;
 	String refFlowId;
 

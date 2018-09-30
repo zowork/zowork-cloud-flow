@@ -18,15 +18,15 @@
 			<when test="username !=null">
 				<node id="分支节点6" class=""></node>
 				<node id="分支节点7" ref=""></node>
-				<goto id="end"></goto>
+				<forward id="end"></forward>
 			</when>
 			<when test="xxxx">
 				<node id="分支节点8"></node>
 				<node id="分支节点9"></node>
-				<goto id="end"></goto>
+				<forward id="end"></forward>
 			</when>
 			<otherwise>
-				<goto id="end"></goto>
+				<forward id="end"></forward>
 			</otherwise>
 		</choose>
 		<node id="公共节点10"></node>

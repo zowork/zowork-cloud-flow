@@ -17,7 +17,7 @@ public class FlowParserFactory {
 		PARSER_MAP.put("when", new IfTagFlowParser());
 		PARSER_MAP.put("otherwise", new OtherwiseTagFlowParser()); 
 		PARSER_MAP.put("if", new IfTagFlowParser());
-		PARSER_MAP.put("goto", new GotoTagFlowParser());
+		PARSER_MAP.put("forward", new ForwardTagFlowParser());
 	}
 
 	public static FlowParser create(Node node) {

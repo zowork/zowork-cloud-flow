@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flows namespace="com.zowork.cloud.flow.test.service.script"
+	xmlns="http://www.zowalk.com/schema/flows" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.zowalk.com/schema/flows http://www.zowalk.com/schema/flows.xsd">
+	<!-- 创建订单流程 -->
+	<flow id="testScript">
+		<node id="injectParam"
+			class="com.zowork.cloud.flow.test.nodes.inject.ParameterInjectNode"></node>
+		<script>
+		<![CDATA[
+		     if($Param.forward=='TEST1'){
+			     $flow.forward('attrResult')
+			 }else if($Param.forward=='TEST2'){
+			     $flow.forward('echo')
+			 }else{
+			     $flow.forward('echo')
+			 } 
+		   ]]>
+
+		</script>
+		<node id="injectAttr"
+			class="com.zowork.cloud.flow.test.nodes.inject.AttributeInjectNode"></node>
+		<node id="attrResult"
+			class="com.zowork.cloud.flow.test.nodes.inject.AttributeResultNode"></node>
+		<node id="echo" class="com.zowork.cloud.flow.test.nodes.inject.EchoInjectNode"></node>
+
+
+	</flow>
+
+</flows>

@@ -11,7 +11,7 @@ import com.zowork.cloud.flow.FlowConfiguration;
 
 public class ComponentScanFlowDefinitionParser implements BeanDefinitionParser {
 	private static final String BASE_PACKAGE_ATTRIBUTE = "base-package";
-	FlowConfiguration configuration;
+	final FlowConfiguration configuration;
 
 	public ComponentScanFlowDefinitionParser(FlowConfiguration configuration) {
 		super();

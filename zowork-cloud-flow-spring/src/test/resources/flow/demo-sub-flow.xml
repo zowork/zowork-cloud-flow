@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flows namespace="com.zowork.cloud.flow.test.service.subflow"
+	xmlns="http://www.zowalk.com/schema/flows" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.zowalk.com/schema/flows http://www.zowalk.com/schema/flows.xsd">
+	<!-- 创建订单流程 -->
+	<flow id="subFlowTest">
+		<node id="injectParam"
+			class="com.zowork.cloud.flow.test.nodes.inject.ParameterInjectNode"></node>
+		<!-- <node id="injectAttr" class="com.zowork.cloud.flow.test.nodes.inject.AttributeInjectNode"></node> 
+			<node id="attrResult" class="com.zowork.cloud.flow.test.nodes.inject.AttributeResultNode"></node> -->
+		<choose>
+			<when test="channel=='ALIPAY'">
+				<sub-flow id="subFlowRef2">
+					<node id="echo2"
+						class="com.zowork.cloud.flow.test.nodes.inject.EchoInjectNode"></node>
+				</sub-flow>
+			</when>
+			<when test="channel=='WECHAT'">
+				<sub-flow ref-flow-id="subFlowRef" />
+			</when>
+			<otherwise>
+				<choose>
+					<when test="channel=='XXX'">
+						<sub-flow id="subFlowRefXX">
+							<node id="echoXX"
+								class="com.zowork.cloud.flow.test.nodes.inject.EchoInjectNode"></node>
+						</sub-flow>
+					</when>
+					<when test="channel=='XXX2'">
+						<sub-flow ref-flow-id="subFlowRef" />
+					</when>
+				</choose>
+			</otherwise>
+		</choose>
+	</flow>
+	<flow id="subFlowRef">
+		<node id="test2"
+			class="com.zowork.cloud.flow.test.nodes.inject.SubFlowInjectNode2"></node>
+	</flow>
+</flows>

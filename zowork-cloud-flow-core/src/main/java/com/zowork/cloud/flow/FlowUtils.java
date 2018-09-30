@@ -20,7 +20,7 @@ import com.zowork.cloud.flow.node.FlowChooseTagNode;
 import com.zowork.cloud.flow.node.FlowElement;
 import com.zowork.cloud.flow.node.FlowElseIfTagNode;
 import com.zowork.cloud.flow.node.FlowElseTagNode;
-import com.zowork.cloud.flow.node.FlowGotoTagNode;
+import com.zowork.cloud.flow.node.FlowForwardTagNode;
 import com.zowork.cloud.flow.node.FlowIfTagNode;
 import com.zowork.cloud.flow.node.FlowScriptTagNode;
 import com.zowork.cloud.flow.node.FlowSubFlowTagNode;
@@ -62,8 +62,8 @@ public class FlowUtils {
 		return el instanceof FlowsRootTagNode;
 	}
 
-	public static boolean isGotoNode(FlowElement el) {
-		return el instanceof FlowGotoTagNode;
+	public static boolean isForwardNode(FlowElement el) {
+		return el instanceof FlowForwardTagNode;
 	}
 
 	public static boolean isScriptNode(FlowElement el) {
@@ -130,8 +130,11 @@ public class FlowUtils {
 				continue;
 			}
 			if (ArrayUtils.isEmpty(anns)) {
-				if(value instanceof Map){
-					context.getParametersMap().putAll((Map)value);
+				if (value instanceof Map) {
+					context.getParametersMap().putAll((Map) value);
+					continue;
+				}
+				if (value.getClass().getName().startsWith("java.")) {
 					continue;
 				}
 				Field[] fieldArr = FieldUtils.getAllFields(value.getClass());
@@ -146,6 +149,7 @@ public class FlowUtils {
 					}
 				}
 				contextMap.addArgument(value);
+
 				continue;
 			}
 			for (Annotation ann : anns) {
@@ -154,6 +158,7 @@ public class FlowUtils {
 
 					for (String key : flowParam.value()) {
 						contextMap.put(key, value);
+						context.setParameter(key, value);
 					}
 
 				} else {
@@ -172,7 +177,8 @@ public class FlowUtils {
 
 	}
 
-	public static Object resolveParameter(FlowParam paramAnn, Class<?> paramType, FlowConfiguration configuration) throws Exception {
+	public static Object resolveParameter(FlowParam paramAnn, Class<?> paramType, FlowConfiguration configuration)
+			throws Exception {
 
 		Object value = null;
 		FlowContext context = FlowContext.getContext();
@@ -198,7 +204,8 @@ public class FlowUtils {
 
 	}
 
-	public static Object resolveAttribute(FlowAttribute attrAnn, Class<?> paramType, FlowConfiguration configuration) throws Exception {
+	public static Object resolveAttribute(FlowAttribute attrAnn, Class<?> paramType, FlowConfiguration configuration)
+			throws Exception {
 
 		Object value = null;
 		FlowContext context = FlowContext.getContext();

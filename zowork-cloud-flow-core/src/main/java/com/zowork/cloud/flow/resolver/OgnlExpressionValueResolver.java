@@ -9,6 +9,8 @@ import java.util.Map;
 import org.apache.ibatis.builder.BuilderException;
 import org.apache.ibatis.scripting.xmltags.OgnlCache;
 
+import com.zowork.cloud.flow.FlowUtils;
+
 public class OgnlExpressionValueResolver implements ExpressionValueResolver {
 	public boolean resolveBoolean(String expression, Object parameterObject) {
 		Object value = OgnlCache.getValue(expression, parameterObject);
@@ -23,7 +25,15 @@ public class OgnlExpressionValueResolver implements ExpressionValueResolver {
 	}
 
 	public Object resolveObject(String expression, Object parameterObject) {
-		Object value = OgnlCache.getValue(expression, parameterObject);
+		Object value = null;
+		try {
+			value = OgnlCache.getValue(expression, parameterObject);
+		} catch (Throwable e) {
+			if (FlowUtils.getLogger().isDebugEnabled()) {
+				FlowUtils.getLogger().debug("resolve value error!", e);
+			}
+		}
+
 		return value;
 	}
 

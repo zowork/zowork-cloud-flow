@@ -57,9 +57,10 @@ import com.zowork.cloud.flow.spring.factory.SpringFlowObjectFactory;
  */
 public class FlowBeanDefinitionParser implements BeanDefinitionParser, ResourceLoaderAware {
 	static Logger logger = LoggerFactory.getLogger(FlowBeanDefinitionParser.class);
-	FlowConfiguration configuration;
+	final FlowConfiguration configuration;
+	final DocumentLoader documentLoader = new DefaultDocumentLoader();
 	ResourceLoader resourceLoader;
-	DocumentLoader documentLoader = new DefaultDocumentLoader();
+
 	private EntityResolver entityResolver;
 	/**
 	 * Indicates that the validation should be disabled.
@@ -82,7 +83,7 @@ public class FlowBeanDefinitionParser implements BeanDefinitionParser, ResourceL
 	public static final int VALIDATION_XSD = XmlValidationModeDetector.VALIDATION_XSD;
 	private int validationMode = VALIDATION_AUTO;
 	private final XmlValidationModeDetector validationModeDetector = new XmlValidationModeDetector();
-	ResourcePatternResolver resourceResolver = new PathMatchingResourcePatternResolver();
+	final ResourcePatternResolver resourceResolver = new PathMatchingResourcePatternResolver();
 	BeanNameGenerator beanNameGenerator = new DefaultBeanNameGenerator();
 
 	public FlowBeanDefinitionParser(FlowConfiguration configuration) {
@@ -94,9 +95,18 @@ public class FlowBeanDefinitionParser implements BeanDefinitionParser, ResourceL
 	public BeanDefinition parse(Element element, ParserContext parserContext) {
 		String locationPattern = element.getAttribute("resource");
 
+		Resource[] resourceList = null;
 		try {
-			Resource[] resourceList = resourceResolver.getResources(locationPattern);
-			for (Resource resource : resourceList) {
+			resourceList = resourceResolver.getResources(locationPattern);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		if (resourceList == null) {
+			return null;
+		}
+		for (Resource resource : resourceList) {
+			try {
 				EncodedResource encodedResource = new EncodedResource(resource);
 				InputSource inputSource = new InputSource(resource.getInputStream());
 				if (encodedResource.getEncoding() != null) {
@@ -143,13 +153,15 @@ public class FlowBeanDefinitionParser implements BeanDefinitionParser, ResourceL
 					assert root != null;
 					FlowsRootTagNode rootNode = (FlowsRootTagNode) root;
 					this.registryFlows(rootNode, parserContext);
-				}
-			}
 
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+				}
+
+			} catch (Exception e) {
+				logger.error("parse error!resource=" + resource, e);
+				e.printStackTrace();
+			}
 		}
+
 		BeanDefinition factoryBeanDefinition = new RootBeanDefinition(SpringFlowObjectFactory.class);
 		factoryBeanDefinition.getPropertyValues().addPropertyValue("configuration", configuration);
 		String beanName = beanNameGenerator.generateBeanName(factoryBeanDefinition, parserContext.getRegistry());

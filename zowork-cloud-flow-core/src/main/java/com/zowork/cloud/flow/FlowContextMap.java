@@ -66,6 +66,9 @@ public class FlowContextMap extends HashMap<String, Object> {
 	}
 
 	public void addArgument(Object arg) {
+		if(arg==null||arg.getClass().getName().startsWith("java.lang.")){
+			return;
+		}
 		MetaObject metaObject = MetaObject.forObject(arg, objectFactory, objectWrapperFactory, reflectorFactory);
 		metaObjectList.add(metaObject);
 	}

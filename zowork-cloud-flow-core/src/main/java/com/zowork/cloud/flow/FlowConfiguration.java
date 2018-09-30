@@ -77,8 +77,9 @@ public class FlowConfiguration {
 		this.converter = converter;
 	}
 
-	public FlowTagNode getFlow(String flowId) {
-		return FLOWS_MAP.get(flowId);
+	public FlowTagNode getFlow(String namespace,String flowId) {
+		String flowName = FlowUtils.getFlowName(namespace, flowId);
+		return FLOWS_MAP.get(flowName);
 	}
 
 	public ExpressionValueResolver getExpressionValueResolver() {
