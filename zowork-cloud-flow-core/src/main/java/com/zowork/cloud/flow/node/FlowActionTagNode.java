@@ -2,6 +2,7 @@ package com.zowork.cloud.flow.node;
 
 import java.lang.reflect.Method;
 
+import com.zowork.cloud.flow.FlowUtils;
 import org.apache.commons.lang3.ClassUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -30,6 +31,7 @@ public class FlowActionTagNode extends BaseTagNode implements FlowElement, Execu
 			try {
 				beanClass = ClassUtils.getClass(className);
 			} catch (ClassNotFoundException e) {
+				FlowUtils.getLogger().error("flow class error!className="+className+",action="+this);
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}

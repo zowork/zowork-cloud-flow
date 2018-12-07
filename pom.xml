@@ -32,6 +32,12 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>4.0.1</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-collections4</artifactId>
 			<version>${commons-collections4.version}</version>
@@ -186,4 +192,16 @@
 			<url>http://maven.baozhen9.com/repository/maven-snapshots/</url>
 		</snapshotRepository>
 	</distributionManagement>
+	<!--<distributionManagement>-->
+		<!--<repository>-->
+			<!--<id>local-releases</id>-->
+			<!--<name>releases by local</name>-->
+			<!--<url>http://172.16.3.17:8081/content/repositories/releases/</url>-->
+		<!--</repository>-->
+		<!--<snapshotRepository>-->
+			<!--<id>local-snapshots</id>-->
+			<!--<name>snapshots by local</name>-->
+			<!--<url>http://172.16.3.17:8081/content/repositories/snapshots/</url>-->
+		<!--</snapshotRepository>-->
+	<!--</distributionManagement>-->
 </project>

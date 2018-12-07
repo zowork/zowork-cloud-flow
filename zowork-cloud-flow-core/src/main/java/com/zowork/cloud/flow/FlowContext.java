@@ -9,6 +9,8 @@ import com.zowork.cloud.flow.invocation.FlowInvocation;
 import com.zowork.cloud.flow.node.FlowElement;
 import com.zowork.cloud.flow.node.FlowTagNode;
 
+import javax.servlet.http.HttpServletRequest;
+
 @SuppressWarnings("rawtypes")
 public class FlowContext {
 	static final ThreadLocal<FlowContext> threadLocal = new ThreadLocal<FlowContext>();
@@ -68,6 +70,10 @@ public class FlowContext {
 	 * 抛异常的Node
 	 */
 	FlowElement exceptionNode;
+	/**
+	 * Request
+	 */
+	HttpServletRequest request;
 	/**
 	 * flow的service方法参数
 	 */
@@ -206,6 +212,14 @@ public class FlowContext {
 		}
 		this.nodeStack.add(node);
 		this.historyMap.put(node.getId(), node);
+	}
+
+	public HttpServletRequest getRequest() {
+		return request;
+	}
+
+	public void setRequest(HttpServletRequest request) {
+		this.request = request;
 	}
 
 	public Class getServiceInterface() {

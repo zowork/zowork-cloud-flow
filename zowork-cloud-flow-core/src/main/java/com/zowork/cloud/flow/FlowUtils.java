@@ -106,6 +106,10 @@ public class FlowUtils {
 		return el instanceof FlowSubFlowTagNode;
 	}
 
+	public static Map<String, Object> toMap(Object bean) {
+		return null;
+	}
+
 	public static String getFlowName(String namespace, String flowId) {
 		if (StringUtils.isBlank(namespace)) {
 			namespace = DEFAULT_NAME_SPACE;

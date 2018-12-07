@@ -182,6 +182,7 @@ public class FlowBeanDefinitionParser implements BeanDefinitionParser, ResourceL
 			if (parserContext.getRegistry().containsBeanDefinition(beanName)) {
 				continue;
 			}
+
 			parserContext.getRegistry().registerBeanDefinition(beanName, beanDefinition);
 		}
 		return null;

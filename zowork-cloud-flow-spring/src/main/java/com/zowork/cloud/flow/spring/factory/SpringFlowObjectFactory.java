@@ -11,46 +11,59 @@ import com.zowork.cloud.flow.factory.DefaultFlowObjectFactory;
 import com.zowork.cloud.flow.node.FlowActionTagNode;
 
 public class SpringFlowObjectFactory extends DefaultFlowObjectFactory
-		implements ApplicationContextAware, InitializingBean {
-	ApplicationContext applicationContext;
-	FlowConfiguration configuration;
+        implements ApplicationContextAware, InitializingBean {
+    ApplicationContext applicationContext;
+    FlowConfiguration configuration;
 
-	@Override
-	public Object getObject(FlowActionTagNode node) {
-		Object bean = null;
-		if (StringUtils.isNotBlank(node.getRef())) {
-			bean = applicationContext.getBean(node.getRef());
-		}
-		if (bean == null && node.getBeanClass() != null) {
-			try {
-				bean = applicationContext.getBean(node.getBeanClass());
-			} catch (Exception e) {
-				logger.warn("get bean from spring error!", e);
-			}
-		}
-		return super.getObject(node);
-	}
+    @Override
+    public Object getObject(FlowActionTagNode node) {
+        Object bean = null;
+        if (node.getBeanClass() != null) {
+            try {
+                bean = applicationContext.getBean(node.getBeanClass());
+            } catch (Exception e) {
+                logger.warn("get bean from spring error!", e);
+            }
+        }
+        if (bean != null) {
+            return bean;
+        }
+        if (StringUtils.isNotBlank(node.getRef())) {
+            if(applicationContext.containsBean(node.getRef())){
+                return applicationContext.getBean(node.getRef());
+            }
+        }
 
-	@Override
-	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-		this.applicationContext = applicationContext;
-	}
+        if (StringUtils.isNotBlank(node.getId())) {
+            if(applicationContext.containsBean(node.getId())){
+                return applicationContext.getBean(node.getId());
+            }
+        }
 
-	public FlowConfiguration getConfiguration() {
-		return configuration;
-	}
 
-	public void setConfiguration(FlowConfiguration configuration) {
-		this.configuration = configuration;
-	}
+        return super.getObject(node);
+    }
 
-	public ApplicationContext getApplicationContext() {
-		return applicationContext;
-	}
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext = applicationContext;
+    }
 
-	@Override
-	public void afterPropertiesSet() throws Exception {
-		configuration.setObjectFactory(this);
-	}
+    public FlowConfiguration getConfiguration() {
+        return configuration;
+    }
+
+    public void setConfiguration(FlowConfiguration configuration) {
+        this.configuration = configuration;
+    }
+
+    public ApplicationContext getApplicationContext() {
+        return applicationContext;
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        configuration.setObjectFactory(this);
+    }
 
 }
