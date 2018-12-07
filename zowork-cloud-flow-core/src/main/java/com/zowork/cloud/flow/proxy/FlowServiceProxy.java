@@ -62,6 +62,7 @@ public class FlowServiceProxy<T> implements InvocationHandler {
 		context.setServiceInterface(serviceInterface);
 		context.setResultClass(method.getReturnType());
 		context.setMethodArgs(args);
+		context.setRequest(FlowUtils.getRequest());
 		return context;
 	}
 

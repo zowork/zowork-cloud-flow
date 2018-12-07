@@ -12,7 +12,7 @@ import com.zowork.cloud.flow.FlowContext;
 import com.zowork.cloud.flow.FlowUtils;
 import com.zowork.cloud.flow.engine.FlowEngine;
 
-@Service
+//@Service
 public class DefaultProcessService<M, P> implements ProcessService<M, P> {
 	@Resource
 	FlowConfiguration configration;
