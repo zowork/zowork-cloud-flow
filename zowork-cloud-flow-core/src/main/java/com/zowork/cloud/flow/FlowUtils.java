@@ -107,7 +107,7 @@ public class FlowUtils {
         if (StringUtils.isBlank(namespace)) {
             namespace = DEFAULT_NAME_SPACE;
         }
-        String flowName = namespace + flowId;
+        String flowName = namespace + "." + flowId;
         return flowName;
     }
 
@@ -233,4 +233,11 @@ public class FlowUtils {
         return requestResolver.getRequest();
     }
 
+    public static RequestResolver getRequestResolver() {
+        return requestResolver;
+    }
+
+    public static void setRequestResolver(RequestResolver requestResolver) {
+        FlowUtils.requestResolver = requestResolver;
+    }
 }
