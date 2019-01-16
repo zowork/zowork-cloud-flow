@@ -14,49 +14,53 @@ import com.zowork.cloud.flow.engine.FlowEngine;
 
 //@Service
 public class DefaultProcessService<M, P> implements ProcessService<M, P> {
-	@Resource
-	FlowConfiguration configration;
+    @Resource
+    FlowConfiguration configration;
 
-	public DefaultProcessService(FlowConfiguration configration) {
-		super();
-		this.configration = configration;
-	}
+    public DefaultProcessService(FlowConfiguration configration) {
+        super();
+        this.configration = configration;
+    }
 
-	/**
-	 * 支付流程注入
-	 */
+    /**
+     * 支付流程注入
+     */
 
-	@Override
-	public M process(String namespace, String flowId, P param) {
-		FlowContext context = new FlowContext();
-		M model = null;
-		try {
-			FlowEngine<M> flowEngine = configration.getFlowEngineManager().getEngine(namespace, flowId);
-			model = flowEngine.process(context);
-		} finally {
-			FlowContext.cleanup();
-		}
-		return model;
-	}
+    @Override
+    public M process(String namespace, String flowId, P param) {
+        FlowContext context = new FlowContext();
+        M model = null;
+        try {
+            //TODO 处理嵌套flow情况下的 context问题，假如一个flow中处理完毕，就会将FlowContext设置为空，这个是bug
+            FlowEngine<M> flowEngine = configration.getFlowEngineManager().getEngine(namespace, flowId);
+            model = flowEngine.process(context);
+        } finally {
+            FlowContext.cleanup();
+        }
+        return model;
+    }
 
-	FlowContext createContext(Method method, P param) {
-		
-		FlowContext context = new FlowContext();
-		
-		Map<String, Object> contextMap = FlowUtils.resolveServiceContextMap(method, param);
-		context.setContextMap(contextMap); 
-		context.setServiceInterface(ProcessService.class);
-		context.setResultClass(method.getReturnType());
+    FlowContext createContext(Method method, P param) {
 
-		return context;
-	}
+        FlowContext context = FlowContext.getContext();
+        if (context == null) {
+            context = new FlowContext();
+        }
 
-	public FlowConfiguration getConfigration() {
-		return configration;
-	}
+        Map<String, Object> contextMap = FlowUtils.resolveServiceContextMap(method, param);
+        context.setContextMap(contextMap);
+        context.setServiceInterface(ProcessService.class);
+        context.setResultClass(method.getReturnType());
 
-	public void setConfigration(FlowConfiguration configration) {
-		this.configration = configration;
-	}
+        return context;
+    }
+
+    public FlowConfiguration getConfigration() {
+        return configration;
+    }
+
+    public void setConfigration(FlowConfiguration configration) {
+        this.configration = configration;
+    }
 
 }
