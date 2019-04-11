@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.ClassUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.reflect.MethodUtils;
 
@@ -29,30 +30,37 @@ public class DefaultMethodResolver implements MethodResolver {
             return null;
         }
         if (methodArray.length > 1) {
-            throw new FlowException("5000", "duplicate validate methods!");
+            throw new FlowException("5000", "duplicate validate methods!nodeBean=" + nodeBean);
         }
         return methodArray[0];
     }
 
     public static Method[] getMatchingMethod(final Class<?> cls, final String[] methodNames) {
         Validate.notNull(cls, "Null class not allowed.");
-        Validate.notEmpty(methodNames, "Null or blank methodName not allowed.");
+        Validate.notEmpty(methodNames, "Null or blank methodName not allowed.class=" + cls);
 
         // Address methods in superclasses
         Method[] methodArray = cls.getDeclaredMethods();
         final List<Class<?>> superclassList = ClassUtils.getAllSuperclasses(cls);
         for (final Class<?> klass : superclassList) {
+            if (StringUtils.indexOf(klass.getName(), "$$EnhancerBySpringCGLIB")>0) {
+                continue;
+            }
             methodArray = ArrayUtils.addAll(methodArray, klass.getDeclaredMethods());
         }
 
         List<Method> methodList = new LinkedList<>();
         for (final Method method : methodArray) {
+            if (StringUtils.indexOf(method.getName(), "$$EnhancerBySpringCGLIB")>0||StringUtils.indexOf(method.getDeclaringClass().getName(), "$$EnhancerBySpringCGLIB")>0) {
+                continue;
+            }
             if (ArrayUtils.contains(methodNames, method.getName())) {
                 methodList.add(method);
             }
         }
         return methodList.toArray(new Method[]{});
     }
+
     public Object getTarget(Object beanInstance) {
         if (!AopUtils.isAopProxy(beanInstance)) {
             return beanInstance;
@@ -79,9 +87,10 @@ public class DefaultMethodResolver implements MethodResolver {
         return null;
 
     }
+
     @Override
     public Method resolveAction(Object nodeBean) {
-        nodeBean=getTarget(nodeBean);
+        nodeBean = getTarget(nodeBean);
         String methodNames[] = {"execute", "doExecute"};
         Method[] methodArray = MethodUtils.getMethodsWithAnnotation(nodeBean.getClass(), FlowAction.class, true, true);
         if (ArrayUtils.isEmpty(methodArray)) {

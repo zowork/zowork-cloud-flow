@@ -40,7 +40,7 @@ public class FlowServiceProxy<T> implements InvocationHandler {
         if (flowMethod != null && StringUtils.isNotBlank(flowMethod.id())) {
             flowId = flowMethod.id();
         }
-        String namespace = serviceInterface.getPackage().getName();
+        String namespace = serviceInterface.getName();
         if (flowService != null && StringUtils.isNotBlank(flowService.namespace())) {
             namespace = flowService.namespace();
         }
