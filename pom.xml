@@ -180,30 +180,30 @@
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
-	<distributionManagement>
-		<repository>
-			<id>ht-releases</id>
-			<name>releases by local</name>
-			<url>http://106.12.109.44:8081/repository/maven-releases/</url>
-		</repository>
-		<snapshotRepository>
-			<id>ht-snapshots</id>
-			<name>snapshots by local</name>
-			<url>http://106.12.109.44:8081/repository/maven-snapshots/</url>
-		</snapshotRepository>
-	</distributionManagement>
 	<!--<distributionManagement>-->
 		<!--<repository>-->
-			<!--<id>local-releases</id>-->
+			<!--<id>ht-releases</id>-->
 			<!--<name>releases by local</name>-->
-			<!--<url>http://maven.baozhen9.com/repository/maven-releases/</url>-->
+			<!--<url>http://106.12.109.44:8081/repository/maven-releases/</url>-->
 		<!--</repository>-->
 		<!--<snapshotRepository>-->
-			<!--<id>local-snapshots</id>-->
+			<!--<id>ht-snapshots</id>-->
 			<!--<name>snapshots by local</name>-->
-			<!--<url>http://maven.baozhen9.com/repository/maven-snapshots/</url>-->
+			<!--<url>http://106.12.109.44:8081/repository/maven-snapshots/</url>-->
 		<!--</snapshotRepository>-->
 	<!--</distributionManagement>-->
+	<distributionManagement>
+		<repository>
+			<id>local-releases</id>
+			<name>releases by local</name>
+			<url>http://maven.baozhen9.com/repository/maven-releases/</url>
+		</repository>
+		<snapshotRepository>
+			<id>local-snapshots</id>
+			<name>snapshots by local</name>
+			<url>http://maven.baozhen9.com/repository/maven-snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
 	<!--<distributionManagement>-->
 		<!--<repository>-->
 			<!--<id>local-releases</id>-->

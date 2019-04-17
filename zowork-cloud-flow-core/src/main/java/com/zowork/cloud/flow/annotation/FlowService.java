@@ -22,4 +22,10 @@ public @interface FlowService {
 	 * @return
 	 */
 	String namespace() default "";
+
+	/**
+	 * 业务分组
+	 * @return
+	 */
+	String group() default "";
 }

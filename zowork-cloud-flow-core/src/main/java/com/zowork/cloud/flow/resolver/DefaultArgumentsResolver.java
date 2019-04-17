@@ -5,6 +5,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.*;
 
+import com.zowork.cloud.flow.FlowAttributeMap;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.ClassUtils;
 import org.apache.commons.lang3.ObjectUtils;
@@ -56,6 +57,14 @@ public class DefaultArgumentsResolver implements ArgumentsResolver {
             Class<?> parameterType = paramTypes[i];
             if (FlowContext.class.isAssignableFrom(parameterType)) {
                 args[i] = FlowContext.getContext();
+                continue;
+            }
+            if (FlowAttributeMap.class.isAssignableFrom(parameterType)) {
+                args[i] = FlowContext.getContext().getAttributesMap();
+                continue;
+            }
+            if (HttpServletRequest.class.isAssignableFrom(parameterType)) {
+                args[i] = FlowContext.getContext().getRequest();
                 continue;
             }
             MethodParameter methodParam = new SynthesizingMethodParameter(handlerMethod, i);
