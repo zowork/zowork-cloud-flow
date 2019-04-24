@@ -45,6 +45,8 @@ public class FlowServiceProxy<T> implements InvocationHandler {
             namespace = flowService.namespace();
         }
         FlowContext context = this.createContext(method, args);
+        context.setNamespace(namespace);
+        context.setFlowId(flowId);
         Object model = null;
         try {
             context.pushStack(context);

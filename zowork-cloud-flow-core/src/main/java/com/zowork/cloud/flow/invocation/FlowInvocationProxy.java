@@ -1,5 +1,6 @@
 package com.zowork.cloud.flow.invocation;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import org.slf4j.Logger;
@@ -32,7 +33,13 @@ public class FlowInvocationProxy {
             try {
                 return this.invokeActionNode();
             } catch (Exception e) {
-                logger.error("invokeActionNode error!", e);
+                logger.error("invokeActionNode error!node=" + node, e);
+                if (e instanceof InvocationTargetException) {
+                    InvocationTargetException targetException = (InvocationTargetException) e;
+                    if (targetException.getTargetException() instanceof RuntimeException) {
+                        throw (RuntimeException) targetException.getTargetException();
+                    }
+                }
                 if (e.getCause() != null) {
                     throw new FlowException(e.getCause());
                 } else {

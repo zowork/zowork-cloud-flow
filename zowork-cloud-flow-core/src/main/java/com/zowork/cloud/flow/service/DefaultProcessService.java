@@ -29,6 +29,8 @@ public class DefaultProcessService<M, P> implements ProcessService<M, P> {
     @Override
     public M process(String namespace, String flowId, P param) {
         FlowContext context = new FlowContext();
+        context.setNamespace(namespace);
+        context.setFlowId(flowId);
         M model = null;
         try {
             //TODO 处理嵌套flow情况下的 context问题，假如一个flow中处理完毕，就会将FlowContext设置为空，这个是bug
