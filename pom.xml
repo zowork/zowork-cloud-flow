@@ -8,7 +8,7 @@
 	<properties>
 		<!-- 主要依赖库的版本定义 -->
 		<spring.version>5.1.4.RELEASE</spring.version>
-		<mybatis.version>3.4.3.cloud-SNAPSHOT</mybatis.version>
+		<mybatis.version>3.5.0.saas-SNAPSHOT</mybatis.version>
 		<slf4j.version>1.7.25</slf4j.version>
 		<logback.version>1.2.3</logback.version>
 		<commons-lang3.version>3.6</commons-lang3.version>
