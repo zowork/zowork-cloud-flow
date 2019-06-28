@@ -99,12 +99,20 @@ public class DefaultArgumentsResolver implements ArgumentsResolver {
 
             } else {
                 for (Annotation paramAnn : paramAnns) {
+
                     if (FlowParam.class.isInstance(paramAnn)) {
-                        args[i] = resolveFlowParam((FlowParam) paramAnn, methodParam);
+                        Object value = resolveFlowParam((FlowParam) paramAnn, methodParam);
+                        if (value != null) {
+                            args[i] = value;
+                        }
                     }
                     if (FlowAttribute.class.isInstance(paramAnn)) {
-                        args[i] = resolveFlowAttribute((FlowAttribute) paramAnn, methodParam);
+                        Object value = resolveFlowAttribute((FlowAttribute) paramAnn, methodParam);
+                        if (value != null) {
+                            args[i] = value;
+                        }
                     }
+
                 }
             }
             if (args[i] == null) {//假如是空，根据传参进行匹配对象类型

@@ -29,8 +29,11 @@ import com.zowork.cloud.flow.resolver.NodeAutowiredResolver;
 import com.zowork.cloud.flow.resolver.OgnlExpressionValueResolver;
 import com.zowork.cloud.flow.result.DefaultFlowResultHandler;
 import com.zowork.cloud.flow.result.FlowResultHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class FlowConfiguration {
+	static Logger logger= LoggerFactory.getLogger(FlowConfiguration.class);
 	static final int MAX_STACK_SIZE = 2000;
 	MethodResolver methodResolver = new DefaultMethodResolver();
 	FlowObjectFactory objectFactory = new DefaultFlowObjectFactory();
@@ -128,8 +131,10 @@ public class FlowConfiguration {
 	public void registry(String namespace, String flowId, String id, FlowElement node) {
 		String key = namespace + "_" + flowId + "_" + id;
 		if (FLOW_NODES_MAP.containsKey(key)) {
-			throw new FlowException("5000",
-					"duplicate node exception!namespace=[" + namespace + "] flowId=[" + flowId + "] id=" + id);
+			logger.error("duplicate node exception!namespace=[" + namespace + "] flowId=[" + flowId + "] id=" + id);
+			return;
+//			throw new FlowException("5000",
+//					"duplicate node exception!namespace=[" + namespace + "] flowId=[" + flowId + "] id=" + id);
 		}
 		FLOW_NODES_MAP.put(key, node);
 	}
