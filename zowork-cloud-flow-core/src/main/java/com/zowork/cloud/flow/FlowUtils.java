@@ -230,6 +230,10 @@ public class FlowUtils {
     }
 
     public static HttpServletRequest getRequest() {
+        if(requestResolver==null){
+            return null;
+        }
+
         return requestResolver.getRequest();
     }
 
