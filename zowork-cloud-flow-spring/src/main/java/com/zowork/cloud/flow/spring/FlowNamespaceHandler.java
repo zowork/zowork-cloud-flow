@@ -13,7 +13,7 @@ import com.zowork.cloud.flow.FlowConfiguration;
  */
 public class FlowNamespaceHandler extends NamespaceHandlerSupport {
 
-	final FlowConfiguration configuration = new FlowConfiguration();
+	public static final FlowConfiguration configuration = new FlowConfiguration();
 
 	/*
 	 * (non-Javadoc)

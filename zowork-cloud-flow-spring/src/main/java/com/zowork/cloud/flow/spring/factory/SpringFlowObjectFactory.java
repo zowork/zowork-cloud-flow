@@ -1,14 +1,13 @@
 package com.zowork.cloud.flow.spring.factory;
 
+import com.zowork.cloud.flow.FlowConfiguration;
+import com.zowork.cloud.flow.factory.DefaultFlowObjectFactory;
+import com.zowork.cloud.flow.node.FlowActionTagNode;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-
-import com.zowork.cloud.flow.FlowConfiguration;
-import com.zowork.cloud.flow.factory.DefaultFlowObjectFactory;
-import com.zowork.cloud.flow.node.FlowActionTagNode;
 
 public class SpringFlowObjectFactory extends DefaultFlowObjectFactory
         implements ApplicationContextAware, InitializingBean {
@@ -21,21 +20,29 @@ public class SpringFlowObjectFactory extends DefaultFlowObjectFactory
         if (node.getBeanClass() != null) {
             try {
                 bean = applicationContext.getBean(node.getBeanClass());
-            } catch (Exception e) {
+            } catch (Throwable e) {
                 logger.warn("get bean from spring error!", e);
             }
         }
         if (bean != null) {
             return bean;
         }
+        if (StringUtils.isNotBlank(node.getBeanId())) {
+            bean = applicationContext.getBean(node.getBeanId());
+
+        }
+        if (bean != null) {
+            return bean;
+        }
+
         if (StringUtils.isNotBlank(node.getRef())) {
-            if(applicationContext.containsBean(node.getRef())){
+            if (applicationContext.containsBean(node.getRef())) {
                 return applicationContext.getBean(node.getRef());
             }
         }
 
         if (StringUtils.isNotBlank(node.getId())) {
-            if(applicationContext.containsBean(node.getId())){
+            if (applicationContext.containsBean(node.getId())) {
                 return applicationContext.getBean(node.getId());
             }
         }

@@ -32,7 +32,7 @@ public class FlowInvocationProxy {
         if (node instanceof FlowActionTagNode) {
             try {
                 return this.invokeActionNode();
-            } catch (Exception e) {
+            } catch (Throwable e) {
                 logger.error("invokeActionNode error!node=" + node, e);
                 if (e instanceof InvocationTargetException) {
                     InvocationTargetException targetException = (InvocationTargetException) e;
@@ -51,7 +51,7 @@ public class FlowInvocationProxy {
         if (node instanceof FlowScriptTagNode) {
             try {
                 return this.invokeScriptNode();
-            } catch (Exception e) {
+            } catch (Throwable e) {
                 logger.error("invokeScriptNode error!", e);
                 if (e.getCause() != null) {
                     throw new FlowException(e.getCause());

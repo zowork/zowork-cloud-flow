@@ -1,12 +1,11 @@
 package com.zowork.cloud.flow.node;
 
-import java.lang.reflect.Method;
-
+import com.zowork.cloud.flow.FlowConfiguration;
 import com.zowork.cloud.flow.FlowUtils;
 import org.apache.commons.lang3.ClassUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import com.zowork.cloud.flow.FlowConfiguration;
+import java.lang.reflect.Method;
 
 /**
  * 执行节点
@@ -18,11 +17,16 @@ public class FlowActionTagNode extends BaseTagNode implements FlowElement, Execu
     Class<?> beanClass;
     String ref;
     Object bean;
+    String flowId;
+    String beanId;
 
     public FlowActionTagNode(FlowConfiguration configuration, String id) {
         super();
         this.configuration = configuration;
         this.id = id;
+        if (StringUtils.isNotBlank(id)) {
+            this.beanId = flowId + "_" + id;
+        }
     }
 
     public String getClassName() {
@@ -58,6 +62,14 @@ public class FlowActionTagNode extends BaseTagNode implements FlowElement, Execu
         this.ref = ref;
     }
 
+    public String getFlowId() {
+        return flowId;
+    }
+
+    public void setFlowId(String flowId) {
+        this.flowId = flowId;
+    }
+
     public boolean isAsync() {
         return async;
     }
@@ -71,6 +83,14 @@ public class FlowActionTagNode extends BaseTagNode implements FlowElement, Execu
             bean = configuration.getObjectFactory().getObject(this);
         }
         return bean;
+    }
+
+    public String getBeanId() {
+        return beanId;
+    }
+
+    public void setBeanId(String beanId) {
+        this.beanId = beanId;
     }
 
     public void setBean(Object bean) {

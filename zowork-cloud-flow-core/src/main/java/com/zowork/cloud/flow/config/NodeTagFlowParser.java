@@ -3,12 +3,11 @@
  */
 package com.zowork.cloud.flow.config;
 
+import com.zowork.cloud.flow.node.FlowActionTagNode;
+import com.zowork.cloud.flow.node.FlowElement;
 import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-
-import com.zowork.cloud.flow.node.FlowActionTagNode;
-import com.zowork.cloud.flow.node.FlowElement;
 
 /**
  * @author luolishu
@@ -28,6 +27,7 @@ public class NodeTagFlowParser implements FlowParser {
         ParseUtils.parseCommonAttribute(actionNode, node);
         actionNode.setClassName(className);
         actionNode.setRef(ref);
+        actionNode.setFlowId(context.getFlowId());
         actionNode.setAsync(StringUtils.endsWithIgnoreCase("true", async));
         if (StringUtils.isNotBlank(test)) {
             actionNode.setTest(test);

@@ -205,16 +205,16 @@
     <!--</snapshotRepository>-->
     <!--</distributionManagement>-->
     <distributionManagement>
-    <repository>
-    <id>local-releases</id>
-    <name>releases by local</name>
-    <url>http://maven.baozhen9.com/repository/maven-releases/</url>
-    </repository>
-    <snapshotRepository>
-    <id>local-snapshots</id>
-    <name>snapshots by local</name>
-    <url>http://maven.baozhen9.com/repository/maven-snapshots/</url>
-    </snapshotRepository>
+        <repository>
+            <id>local-releases</id>
+            <name>releases by local</name>
+            <url>http://nexus.ci.nakipower.com/repository/maven-releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>local-snapshots</id>
+            <name>snapshots by local</name>
+            <url>http://nexus.ci.nakipower.com/repository/maven-snapshots/</url>
+        </snapshotRepository>
     </distributionManagement>
     <!--<distributionManagement>-->
     <!--<repository>-->

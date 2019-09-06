@@ -156,6 +156,7 @@ public class FlowBeanDefinitionParser implements BeanDefinitionParser, ResourceL
         }
 
         BeanDefinition factoryBeanDefinition = new RootBeanDefinition(SpringFlowObjectFactory.class);
+        factoryBeanDefinition.setLazyInit(false);
         factoryBeanDefinition.getPropertyValues().addPropertyValue("configuration", configuration);
         String beanName = beanNameGenerator.generateBeanName(factoryBeanDefinition, parserContext.getRegistry());
         if (!parserContext.getRegistry().containsBeanDefinition(beanName)) {
