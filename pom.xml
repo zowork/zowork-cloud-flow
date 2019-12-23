@@ -208,12 +208,12 @@
         <repository>
             <id>local-releases</id>
             <name>releases by local</name>
-            <url>http://nexus.ci.nakipower.com/repository/maven-releases/</url>
+            <url>http://maven.offer86.com/repository/maven-releases/</url>
         </repository>
         <snapshotRepository>
             <id>local-snapshots</id>
             <name>snapshots by local</name>
-            <url>http://nexus.ci.nakipower.com/repository/maven-snapshots/</url>
+            <url>http://maven.offer86.com/repository/maven-snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
     <!--<distributionManagement>-->
