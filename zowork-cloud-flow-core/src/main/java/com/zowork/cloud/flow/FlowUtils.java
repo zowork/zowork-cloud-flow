@@ -13,6 +13,8 @@ import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -230,12 +232,29 @@ public class FlowUtils {
     }
 
     public static HttpServletRequest getRequest() {
-        if(requestResolver==null){
+        if (requestResolver == null) {
             return null;
         }
 
         return requestResolver.getRequest();
     }
+
+    public static HttpServletResponse getResponse() {
+        if (requestResolver == null) {
+            return null;
+        }
+
+        return requestResolver.getResponse();
+    }
+
+    public static HttpSession getSession() {
+        if (requestResolver == null) {
+            return null;
+        }
+
+        return getRequest().getSession();
+    }
+
 
     public static RequestResolver getRequestResolver() {
         return requestResolver;

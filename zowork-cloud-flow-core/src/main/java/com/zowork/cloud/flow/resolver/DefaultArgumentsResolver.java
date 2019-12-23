@@ -1,14 +1,14 @@
 package com.zowork.cloud.flow.resolver;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.*;
-
 import com.zowork.cloud.flow.FlowAttributeMap;
+import com.zowork.cloud.flow.FlowConfiguration;
+import com.zowork.cloud.flow.FlowContext;
+import com.zowork.cloud.flow.FlowUtils;
+import com.zowork.cloud.flow.annotation.FlowAttribute;
+import com.zowork.cloud.flow.annotation.FlowParam;
+import com.zowork.cloud.flow.converter.FlowTypeConverter;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.ClassUtils;
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.ConstructorUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
@@ -17,15 +17,13 @@ import org.springframework.core.GenericTypeResolver;
 import org.springframework.core.MethodParameter;
 import org.springframework.core.annotation.SynthesizingMethodParameter;
 
-import com.zowork.cloud.flow.FlowConfiguration;
-import com.zowork.cloud.flow.FlowContext;
-import com.zowork.cloud.flow.FlowUtils;
-import com.zowork.cloud.flow.annotation.FlowAttribute;
-import com.zowork.cloud.flow.annotation.FlowParam;
-import com.zowork.cloud.flow.converter.FlowTypeConverter;
-import org.springframework.util.ReflectionUtils;
-
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.*;
 
 public class DefaultArgumentsResolver implements ArgumentsResolver {
     FlowConfiguration configuration;
@@ -65,6 +63,14 @@ public class DefaultArgumentsResolver implements ArgumentsResolver {
             }
             if (HttpServletRequest.class.isAssignableFrom(parameterType)) {
                 args[i] = FlowContext.getContext().getRequest();
+                continue;
+            }
+            if (HttpServletResponse.class.isAssignableFrom(parameterType)) {
+                args[i] = FlowContext.getContext().getResponse();
+                continue;
+            }
+            if (HttpSession.class.isAssignableFrom(parameterType)) {
+                args[i] = FlowContext.getContext().getSession();
                 continue;
             }
             MethodParameter methodParam = new SynthesizingMethodParameter(handlerMethod, i);
@@ -118,6 +124,14 @@ public class DefaultArgumentsResolver implements ArgumentsResolver {
             if (args[i] == null) {//假如是空，根据传参进行匹配对象类型
                 if (HttpServletRequest.class.isAssignableFrom(parameterType)) {
                     args[i] = FlowContext.getContext().getRequest();
+                    continue;
+                }
+                if (HttpServletResponse.class.isAssignableFrom(parameterType)) {
+                    args[i] = FlowContext.getContext().getResponse();
+                    continue;
+                }
+                if (HttpSession.class.isAssignableFrom(parameterType)) {
+                    args[i] = FlowContext.getContext().getSession();
                     continue;
                 }
                 Object[] methodArgs = FlowContext.getContext().getMethodArgs();

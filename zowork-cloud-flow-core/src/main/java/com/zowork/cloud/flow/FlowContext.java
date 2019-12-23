@@ -5,6 +5,8 @@ import com.zowork.cloud.flow.node.FlowElement;
 import com.zowork.cloud.flow.node.FlowTagNode;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.*;
 
 @SuppressWarnings("rawtypes")
@@ -74,6 +76,14 @@ public class FlowContext {
      * Request
      */
     HttpServletRequest request;
+    /**
+     * Response
+     */
+    HttpServletResponse response;
+    /**
+     * session
+     */
+    HttpSession session;
     /**
      * flow的service方法参数
      */
@@ -261,6 +271,22 @@ public class FlowContext {
 
     public Stack<FlowContext> getInvokeStack() {
         return invokeStack;
+    }
+
+    public HttpServletResponse getResponse() {
+        return response;
+    }
+
+    public void setResponse(HttpServletResponse response) {
+        this.response = response;
+    }
+
+    public HttpSession getSession() {
+        return session;
+    }
+
+    public void setSession(HttpSession session) {
+        this.session = session;
     }
 
     public static void cleanup() {
