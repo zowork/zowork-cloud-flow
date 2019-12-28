@@ -251,8 +251,12 @@ public class FlowUtils {
         if (requestResolver == null) {
             return null;
         }
+        HttpServletRequest request = getRequest();
+        if (request == null) {
+            return null;
+        }
 
-        return getRequest().getSession();
+        return request.getSession();
     }
 
 
