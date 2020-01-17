@@ -4,14 +4,14 @@
 	<parent>
 		<groupId>com.zowork.cloud.flow</groupId>
 		<artifactId>zowork-cloud-flow-all</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>0.0.2-SNAPSHOT</version>
 	</parent>
 	<artifactId>zowork-cloud-flow-spring</artifactId>
 	<dependencies>
 		<dependency>
 			<groupId>com.zowork.cloud.flow</groupId>
 			<artifactId>zowork-cloud-flow-core</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.2-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 	<build>

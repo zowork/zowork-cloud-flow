@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.zowork.cloud.flow</groupId>
     <artifactId>zowork-cloud-flow-all</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.2-SNAPSHOT</version>
     <packaging>pom</packaging>
     <properties>
         <!-- 主要依赖库的版本定义 -->
